@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-// #define debug
+#define debug
 
 
 #ifdef debug
@@ -73,13 +73,20 @@ int main(int argc, char *argv[])
 void test()
 {
     // char ch = 'a';
-    u_int16_t ch = 0x2AA;
-    cout << int(ch) << endl;
-    // Per8to8(ch, IPn);
+    u_int16_t val = 0x2AA;
     int size = 8;
-    int* binary = ToBinaryArr(ch, size);
-    for (int i = 0; i <= size; i++)
-        std::cout << binary[i];
-    std::cout << std::endl;
+    cout << int(val) << endl;
+    Permutation(val, 10, 10, P10);
+
+
+    // int* binary = ToBinaryArr(val, size);
+    // for (int i = 0; i < size; i++)
+    //     std::cout << binary[i];
+    // std::cout << std::endl;
+    
+    // int* binary = ToBinaryArr(ch, size/2);
+    // for (int i = 0; i < size; i++)
+    //     std::cout << binary[i];
+    // std::cout << std::endl;
 }
 #endif

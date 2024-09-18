@@ -106,37 +106,43 @@ int* ToBinaryArr(u_int16_t val, int size = 8)
     // The binary array that is created from char
     // Hard coded size of 16 because there are no values that should be above 16 bits
     static int binary[16];
+    size = size-1;
 
-    for(int i = 0; i < size; i++)
-        binary[i] = (val >> (size-1)-i) & 1;
+    for(int i = 0; i <= size; i++)
+        binary[i] = (val >> size-i) & 1;
     
     return binary;
 }
 
 
 
+
+
+
 /*** Permutations ***/
 
-/* Before Key Gen */
-
 // char PerIP(char ch)
-char Per8to8(unsigned char ch, int* permutation)
+u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* permutation)
 {
     // The permutated character
     char permCh = 0;
-    std::cout << "Permutating character " << ch << " or # " << int(ch) << std::endl;
+    std::cout << "Permutating value " << val << std::endl;
 
     // Binary array of length 8 that will be used to accomplish permutation
-    int* binary = ToBinaryArr(ch);
+    int* binary = ToBinaryArr(val, input_size);
+    for (int i = 0; i < input_size; i++)
+        std::cout << binary[i];
+    std::cout << std::endl;
+    
 
     // The permutated character in binary array form. (Probably won't keep)
-    int permutated[8];
-    for(int i = 0; i < 8; i++)
+    int permutated[16];
+    for(int i = 0; i < permutation_size; i++)
         std::cout << permutation[i];
     std::cout << std::endl;
     
 
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < input_size; i++)
     {
         permutated[i] = binary[permutation[i]-1];
         std::cout << permutated[i];
@@ -147,18 +153,4 @@ char Per8to8(unsigned char ch, int* permutation)
     std::cout << std::endl;
 
     return permCh;
-}
-
-
-/**
- * @brief Permutation implementation of P1
- * 
- * @param input An input stream of 4 bits
- * @return std::string Returns the permutated std::string
- */
-std::string PerP1(char input)
-{
-    std::string perm = "";
-    // TODO
-    return perm;
 }
