@@ -95,24 +95,20 @@ void EncryptInput(std::string input)
 }
 
 /**
- * @brief Converts an 8 bit character into a binary array. Probably more convinient/efficient ways, but this is how my brain worked 
+ * @brief Converts an unsigned integer of size up to 16 to a binary array
  * 
- * @param ch The input character to be converted
- * @return int* A binary array representation of ch of length 8
+ * @param val The value to be converted into a binary array
+ * @param size The amount of bits that are utilized by the value
+ * @return int* The returned binary representation in array format of the value
  */
-int* CharToBinaryArr(char ch, int size = 8)
+int* ToBinaryArr(u_int16_t val, int size = 8)
 {
-    // Todo
     // The binary array that is created from char
     // Hard coded size of 16 because there are no values that should be above 16 bits
     static int binary[16];
-    std::cout << "Converting char " << ch << " of # " << int(ch) << std::endl;
 
     for(int i = 0; i < size; i++)
-        binary[i] = (ch >> 7-i) & 1;
-    for (int i = 0; i < size; i++)
-        std::cout << binary[i];
-    std::cout << std::endl;
+        binary[i] = (val >> (size-1)-i) & 1;
     
     return binary;
 }
@@ -124,14 +120,14 @@ int* CharToBinaryArr(char ch, int size = 8)
 /* Before Key Gen */
 
 // char PerIP(char ch)
-char Per8to8(char ch, int* permutation)
+char Per8to8(unsigned char ch, int* permutation)
 {
     // The permutated character
     char permCh = 0;
     std::cout << "Permutating character " << ch << " or # " << int(ch) << std::endl;
 
     // Binary array of length 8 that will be used to accomplish permutation
-    int* binary = CharToBinaryArr(ch);
+    int* binary = ToBinaryArr(ch);
 
     // The permutated character in binary array form. (Probably won't keep)
     int permutated[8];

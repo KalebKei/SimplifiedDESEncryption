@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-#define debug
+// #define debug
 
 
 #ifdef debug
@@ -72,8 +72,14 @@ int main(int argc, char *argv[])
 #ifdef debug
 void test()
 {
-    char ch = 'a';
+    // char ch = 'a';
+    u_int16_t ch = 0x2AA;
+    cout << int(ch) << endl;
     // Per8to8(ch, IPn);
-    CharToBinaryArr(ch);
+    int size = 8;
+    int* binary = ToBinaryArr(ch, size);
+    for (int i = 0; i <= size; i++)
+        std::cout << binary[i];
+    std::cout << std::endl;
 }
 #endif
