@@ -73,6 +73,7 @@ int main(int argc, char *argv[])
 void test()
 {
     char ch = 'a';
-    Per8to8(ch, IPn);
+    // Per8to8(ch, IPn);
+    CharToBinaryArr(ch);
 }
 #endif

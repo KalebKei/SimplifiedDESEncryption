@@ -5,6 +5,7 @@
 #include <cmath>
 
 
+
 /********* Variables *********/
 /*** All relevant permutations ***/
 
@@ -99,53 +100,20 @@ void EncryptInput(std::string input)
  * @param ch The input character to be converted
  * @return int* A binary array representation of ch of length 8
  */
-int* CharToBinaryArr(char ch)
+int* CharToBinaryArr(char ch, int size = 8)
 {
     // Todo
     // The binary array that is created from char
-    static int binary[8] = {0,0,0,0,0,0,0,0};
+    // Hard coded size of 16 because there are no values that should be above 16 bits
+    static int binary[16];
+    std::cout << "Converting char " << ch << " of # " << int(ch) << std::endl;
 
-    // The return value of binary operations
-    char ret = 0;
-
-    // Most significant is index 0
-
-    ret = ch & 0x80; // 1 0 0 0 0 0 0 0
-    if(ret != 0)
-        binary[0] = 1;
-
-    ret = ch & 0x40; // 0 1 0 0 0 0 0 0
-    if(ret != 0)
-        binary[1] = 1;
-    
-    ret = ch & 0x20; // 0 0 1 0 0 0 0 0 
-    if(ret != 0)
-        binary[2] = 1;
-    
-    ret = ch & 0x10; // 0 0 0 1 0 0 0 0 
-    if(ret != 0)
-        binary[3] = 1;
-
-    ret = ch & 0x8; // 0 0 0 0 1 0 0 0 
-    if(ret != 0)
-        binary[4] = 1;
-
-    ret = ch & 0x4; // 0 0 0 0 0 1 0 0 
-    if(ret != 0)
-        binary[5] = 1;
-    
-    ret = ch & 0x2; // 0 0 0 0 0 0 1 0 
-    if(ret != 0)
-        binary[6] = 1;
-
-    ret = ch & 0x1; // 0 0 0 0 0 0 0 1
-    if(ret != 0)
-        binary[7] = 1;
-    
-    for (int i = 0; i < 8; i++)
+    for(int i = 0; i < size; i++)
+        binary[i] = (ch >> 7-i) & 1;
+    for (int i = 0; i < size; i++)
         std::cout << binary[i];
     std::cout << std::endl;
-
+    
     return binary;
 }
 

@@ -5,8 +5,9 @@ Simplified DES Encryption algorithm originally intended for a software security 
 
 
 ## TODO
-- Find a better way to implement converting to binary arrays (bit shifting?)
-- Implement Permutations up to key generation
+<!-- - Find a better way to implement converting to binary arrays (bit shifting?) -->
+<!-- - Implement Permutations up to key generation -->
+- Implement Feistal Function
 - Implement Key gen
 - Implement permutations after key generation
 - Confirm all logic flows
