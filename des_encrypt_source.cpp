@@ -6,15 +6,19 @@
 
 
 /********* Variables *********/
-/* All relevant permutations */
+/*** All relevant permutations ***/
 
-static int P1[4] = {2, 4, 3, 1}; // Constant permutation
+/* Encryption */
+static int IP[8] = {2, 6, 3, 1, 4, 8, 5, 7}; // Constant permutation used at start of encryption
+static int IPn[8] = {4, 1, 3, 5, 7, 2, 8, 6}; // Constant permutation used at end of encryption (inverse IP)
+static int EP[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // Constant permutation used for the feistal function
+
+/* Key gen */
 static int P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6}; // Constant permutation
-static int IP[8] = {2, 6, 3, 1, 4, 8, 5, 7}; // Constant permutation
-static int IPn[8] = {4, 1, 3, 5, 7, 2, 8, 6}; // Constant permutation
-static int EP[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // Constant permutation
 static int P8[8] = {6, 3, 7, 4, 8, 5, 10, 9}; // Constant permutation
 
+/* Substitution */
+static int P4[4] = {2, 4, 3, 1}; // Constant permutation
 
 
 
@@ -151,7 +155,8 @@ int* CharToBinaryArr(char ch)
 
 /* Before Key Gen */
 
-char PerIP(char ch)
+// char PerIP(char ch)
+char Per8to8(char ch, int* permutation)
 {
     // The permutated character
     char permCh = 0;
@@ -163,15 +168,15 @@ char PerIP(char ch)
     // The permutated character in binary array form. (Probably won't keep)
     int permutated[8];
     for(int i = 0; i < 8; i++)
-        std::cout << IP[i];
+        std::cout << permutation[i];
     std::cout << std::endl;
     
 
     for(int i = 0; i < 8; i++)
     {
-        permutated[i] = binary[IP[i]-1];
+        permutated[i] = binary[permutation[i]-1];
         std::cout << permutated[i];
-        // permCh += binary[IP[i]-1] * pow(2, 7 - i);
+        // permCh += binary[permutation[i]-1] * pow(2, 7 - i);
         // std::cout << permCh << std::endl;
     } 
     // std::cout << permCh << std::endl;

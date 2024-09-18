@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-// #define debug
+#define debug
 
 
 #ifdef debug
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 #ifdef debug
 void test()
 {
-    char ch = 'b';
-    PerIP(ch);
+    char ch = 'a';
+    Per8to8(ch, IPn);
 }
 #endif
