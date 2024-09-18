@@ -12,13 +12,13 @@
 /* Encryption */
 static int IP[8] = {2, 6, 3, 1, 4, 8, 5, 7}; // Constant permutation used at start of encryption
 static int IPn[8] = {4, 1, 3, 5, 7, 2, 8, 6}; // Constant permutation used at end of encryption (inverse IP)
-static int EP[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // Constant permutation used for the feistal function
 
 /* Key gen */
 static int P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6}; // Constant permutation
 static int P8[8] = {6, 3, 7, 4, 8, 5, 10, 9}; // Constant permutation
 
-/* Substitution */
+/* Feistal Function */
+static int EP[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // Constant permutation used for the feistal function
 static int P4[4] = {2, 4, 3, 1}; // Constant permutation
 
 
@@ -121,7 +121,8 @@ int* ToBinaryArr(u_int16_t val, int size = 8)
 
 /*** Permutations ***/
 
-// char PerIP(char ch)
+/* Actually all of the work */
+
 u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* permutation)
 {
     // The permutated character
@@ -156,3 +157,37 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* 
 
     return permCh;
 }
+
+
+/* Encryption */
+
+char PermIP(char ch)
+{
+    return Permutation(ch, 8, 8, IP);
+}
+
+char PermIPn(char ch)
+{
+    return Permutation(ch, 8, 8, IPn);
+}
+
+
+/* Key Gen */
+
+u_int16_t PermP10(u_int16_t val)
+{
+    return Permutation(val, 10, 10, P10);
+}
+
+u_int16_t PermP8(u_int16_t val)
+{
+    return Permutation(val, 10, 8, P8);
+}
+
+/* Feistal Function */
+u_int16_t Expansion(u_int16_t val)
+{
+    return Permutation(val, 4, 8, EP);
+}
+
+
