@@ -13,6 +13,12 @@
 
 using namespace std; 
 
+#define debug
+
+
+#ifdef debug
+void test();
+#endif
 
 const char* progname = "";
 const char* filename = "";
@@ -38,6 +44,9 @@ int main(int argc, char *argv[])
     //     cout << "No key provided" << endl;
     //     exit(1);
     // }
+#ifdef debug
+    test();
+#endif
 
     /* Obtain the Input */
 
@@ -59,3 +68,11 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+#ifdef debug
+void test()
+{
+    char ch = 'a';
+    Per8to8(ch, IPn);
+}
+#endif
