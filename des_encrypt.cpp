@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-#define debug
+// #define debug
 
 
 #ifdef debug
@@ -76,7 +76,9 @@ void test()
     u_int16_t val = 0x2AA;
     int size = 8;
     cout << int(val) << endl;
-    Permutation(val, 10, 10, P10);
+    
+    
+    Permutation(val, 4, 8, EP);
 
 
     // int* binary = ToBinaryArr(val, size);

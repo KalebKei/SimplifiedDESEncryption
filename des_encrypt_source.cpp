@@ -130,6 +130,8 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* 
 
     // Binary array of length 8 that will be used to accomplish permutation
     int* binary = ToBinaryArr(val, input_size);
+
+    
     for (int i = 0; i < input_size; i++)
         std::cout << binary[i];
     std::cout << std::endl;
@@ -142,7 +144,7 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* 
     std::cout << std::endl;
     
 
-    for(int i = 0; i < input_size; i++)
+    for(int i = 0; i < permutation_size; i++)
     {
         permutated[i] = binary[permutation[i]-1];
         std::cout << permutated[i];
