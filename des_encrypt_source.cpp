@@ -114,6 +114,61 @@ int* ToBinaryArr(u_int16_t val, int size = 8)
     return binary;
 }
 
+/**
+ * @brief 
+ * 
+ * @param binary 
+ * @param size 
+ * @return u_int16_t 
+ */
+u_int16_t ToInt(int* binary, int size = 8)
+{
+    u_int16_t val = 0;
+    for(int i = 0; i < size; i++)
+        val += binary[i] * pow(2, (size - (i+1)));
+    return val;
+}
+
+
+/*** Bit shifting ***/
+
+/**
+ * @brief 
+ * 
+ * @param val 
+ * @param amount 
+ * @param size 
+ * @return u_int16_t 
+ */
+u_int16_t LeftShift(u_int16_t val, unsigned int amount, int size = 8)
+{
+    int* binary = ToBinaryArr(val, size);
+
+    for(int i = 0; i < amount; i++)
+    {
+        std::cout << "before ";
+        for(int b = 0; b < size; b++)
+            std::cout << binary[b];
+        std::cout << std::endl;
+
+        // Save the last
+        int temp = binary[size-1];
+        std::cout << temp << std::endl;
+        for(int j = size-1; j > 0; j--)
+            binary[j] = binary[j-1];
+        binary[0] = temp;
+
+        std::cout << "after  ";
+        for(int b = 0; b < size; b++)
+            std::cout << binary[b];
+        std::cout << std::endl;
+    }
+
+    u_int16_t shifted_val = ToInt(binary, size);
+    std::cout << shifted_val << std::endl; 
+
+    return shifted_val; 
+}
 
 
 

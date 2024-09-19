@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-#define debug
+// #define debug
 
 
 #ifdef debug
@@ -74,14 +74,18 @@ void test()
 {
     // char ch = 'a';
     u_int16_t val = 0x2AA;
-    int size = 8;
+    int size = 10;
     cout << int(val) << endl;
     
+    int* binary = ToBinaryArr(val, size);
+    u_int16_t new_val = ToInt(binary, size);
+    cout << hex << new_val << dec << endl;
+
+    LeftShift(new_val, 2, 10);
     
-    PermP8(val);
+    // PermP8(val);
 
 
-    // int* binary = ToBinaryArr(val, size);
     // for (int i = 0; i < size; i++)
     //     std::cout << binary[i];
     // std::cout << std::endl;
