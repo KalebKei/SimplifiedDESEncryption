@@ -9,11 +9,11 @@
 #include <iostream>
 #include <string>
 #include <cstdint>
-#include "des_encrypt_source.cpp"
+#include "encrypt.h"
 
 using namespace std; 
 
-// #define debug
+#define debug
 
 
 #ifdef debug
@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
     if(filename != "")
     {
         input = ReadFile(filename);
-        EncryptInput(input);
+        // TODO something with input
+        // EncryptInput(input, key);
     }
     else
     {
@@ -62,7 +63,9 @@ int main(int argc, char *argv[])
         {
 
             input = getchar();
-            EncryptInput(input);
+            // TODO something with input
+
+            // EncryptInput(input, key);
         }
     }
 
@@ -72,21 +75,51 @@ int main(int argc, char *argv[])
 #ifdef debug
 void test()
 {
-    // char ch = 'a';
+    char ch = 'a';
+    cout << "Char: " << int(ch) << endl;
     u_int16_t val = 0x2AA;
-    int size = 8;
-    cout << int(val) << endl;
+    int size = 10;
+    cout << "Key: " << hex << val << dec << endl;
+
+    EncryptByte(ch, val);
+
+
     
-    int* binary = ToBinaryArr(val, size);
+    // int* binary = ToBinaryArr(val, size);
     // u_int16_t new_val = ToInt(binary, size);
     // cout << hex << new_val << dec << endl;
 
-    // LeftShift(new_val, 2, 10);
-
-    int* left;
-    int* right;
-    SplitArr(binary, left, right, size);
+    // binary = LeftShift(binary, 1, 10);
     
+    // for (int i = 0; i < size; i++)
+    //     std::cout << binary[i];
+    // std::cout << std::endl;
+
+    // int left[size/2];
+    // int right[size/2];
+    // SplitArr(binary, left, right, size);
+
+    // cout << "left:  ";
+    // for (int i = 0; i < size/2; i++)
+    //     std::cout << left[i];
+    // std::cout << std::endl;
+    // cout << "right: ";
+    // for (int i = 0; i < size/2; i++)
+    //     std::cout << right[i];
+    // std::cout << std::endl;
+
+
+    // int* newbinary = CombineArrs(left, right, size);
+    // for (int i = 0; i < size; i++)
+    //     std::cout << newbinary[i];
+    // std::cout << std::endl;
+
+    // newbinary = Swap(newbinary, size);
+    // std::cout << "Swapped: ";
+    // for (int i = 0; i < size; i++)
+    //     std::cout << newbinary[i];
+    // std::cout << std::endl;
+
     // PermP8(val);
 
 
