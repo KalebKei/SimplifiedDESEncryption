@@ -74,14 +74,18 @@ void test()
 {
     // char ch = 'a';
     u_int16_t val = 0x2AA;
-    int size = 10;
+    int size = 8;
     cout << int(val) << endl;
     
     int* binary = ToBinaryArr(val, size);
-    u_int16_t new_val = ToInt(binary, size);
-    cout << hex << new_val << dec << endl;
+    // u_int16_t new_val = ToInt(binary, size);
+    // cout << hex << new_val << dec << endl;
 
-    LeftShift(new_val, 2, 10);
+    // LeftShift(new_val, 2, 10);
+
+    int* left;
+    int* right;
+    SplitArr(binary, left, right, size);
     
     // PermP8(val);
 

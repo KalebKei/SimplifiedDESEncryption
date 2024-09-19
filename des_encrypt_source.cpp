@@ -91,8 +91,12 @@ void EncryptInput(std::string input)
 
 
 
-    std::cout << input << std::endl;
+    std::cout << input;
 }
+
+
+
+/*** Binary Actions ***/
 
 /**
  * @brief Converts an unsigned integer of size up to 16 to a binary array
@@ -129,9 +133,6 @@ u_int16_t ToInt(int* binary, int size = 8)
     return val;
 }
 
-
-/*** Bit shifting ***/
-
 /**
  * @brief 
  * 
@@ -151,7 +152,7 @@ u_int16_t LeftShift(u_int16_t val, unsigned int amount, int size = 8)
             std::cout << binary[b];
         std::cout << std::endl;
 
-        // Save the last
+        // Save the last to replace
         int temp = binary[size-1];
         std::cout << temp << std::endl;
         for(int j = size-1; j > 0; j--)
@@ -171,7 +172,39 @@ u_int16_t LeftShift(u_int16_t val, unsigned int amount, int size = 8)
 }
 
 
+void SplitArr(int* binary, int* left, int* right, int size)
+{
+    int split = size / 2;
 
+    // Create new arrays for the left and right side
+    left = new int[split];
+    right = new int[split];
+
+    for(int i = 0; i < split; i++) {
+        left[i] = binary[i];
+        right[i] = binary[i + split];
+    }
+
+    std::cout << "Full: ";
+    for (int i = 0; i < size; i++) {
+        std::cout << binary[i];
+    }
+    std::cout << std::endl;
+
+    std::cout << "Left:  ";
+    for (int i = 0; i < split; i++) {
+        std::cout << left[i];
+    }
+    std::cout << std::endl;
+
+    std::cout << "Right: ";
+    for (int i = 0; i < split; i++) {
+        std::cout << right[i];
+    }
+    std::cout << std::endl;
+
+    return;
+}
 
 
 /*** Permutations ***/
@@ -240,6 +273,7 @@ u_int16_t PermP8(u_int16_t val)
 }
 
 /* Feistal Function */
+
 u_int16_t Expansion(u_int16_t val)
 {
     return Permutation(val, 4, 8, EP);
