@@ -46,7 +46,7 @@ std::string ReadFile(const char* file);
  * 
  * @param input The input that desires to be encrypted
  */
-void EncryptByte(char input, u_int16_t key);
+void EncryptByte(unsigned char input, u_int16_t key);
 
 u_int16_t Feistal(char input, u_int16_t key);
 
@@ -58,19 +58,18 @@ u_int16_t Feistal(char input, u_int16_t key);
  * 
  * @param val The value to be converted into a binary array
  * @param size The amount of bits that are utilized by the value
- * @return int* The returned binary representation in array format of the value
  */
-int* ToBinaryArr(u_int16_t val, int size);
+void ToBinaryArr(u_int16_t val, int size, int binary[]);
 
-u_int16_t ToInt(int* binary, int size);
+u_int16_t ToInt(int binary[], int size);
 
-void LeftShift(int* val, unsigned int amount, int size);
+void LeftShift(int val[], int size);
 
-void SplitArr(int* binary, int* left, int* right, int size);
+void SplitArr(int binary[], int left[], int right[], int size);
 
-int* CombineArrs(int* left, int* right, int full_size);
+void CombineArrs(int full[], int left[], int right[], int full_size);
 
-int* Swap(int* binary, int size);
+void Swap(int binary[], int size);
 
 
 
@@ -78,7 +77,7 @@ int* Swap(int* binary, int size);
 
 /* Actually all of the work */
 
-u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* permutation);
+u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int permutation[]);
 
 /* Encryption */
 

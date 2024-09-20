@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
 #ifdef debug
 void test()
 {
-    char ch = 'a';
-    cout << "Char: " << int(ch) << endl;
+    unsigned char ch = 'b';
+    cout << "Char: " << ch << ' ' << int(ch) << endl;
     u_int16_t val = 0x2AA;
     int size = 10;
     cout << "Key: " << hex << val << dec << endl;

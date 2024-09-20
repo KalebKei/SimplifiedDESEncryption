@@ -59,107 +59,59 @@ std::string ReadFile(const char* file)
 }
 
 
-void EncryptByte(char input, u_int16_t key)
+void EncryptByte(unsigned char input, u_int16_t key)
 {
     // TODO
     /* Permutate input */
     input = PermIP(input);
 
-    std::cout << "After IP permutation: " << int(input) << std::endl;
-
-
     /* Generate Key 1 */
 
     // The binary representation of the 10 bit key
-    int* binaryKey = ToBinaryArr(key, 10);
-
-    std::cout << "Binary representation of key: ";
-    for(int i = 0; i < 10; i++)
-        std::cout << binaryKey[i];
-    std::cout << std::endl;
-
+    int binaryKey[10];
+    ToBinaryArr(key, 10, binaryKey);
 
     // The left half of the binary key
     int left[5];
     // The right half of the binary key
     int right[5];
 
-    std::cout << "Splitting binary key" << std::endl;
-
     SplitArr(binaryKey, left, right, 10);
 
-    std::cout << "Binary representation of left: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << left[i];
-    std::cout << std::endl;
-    std::cout << "Binary representation of right: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << right[i];
-    std::cout << std::endl;
-
     // Shift right and left by 1
-    LeftShift(left, 1, 4);
-    LeftShift(right, 1, 4);
-
-    std::cout << "Shifted Binary representation of left: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << left[i];
-    std::cout << std::endl;
-    std::cout << "Shifted Binary representation of right: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << right[i];
-    std::cout << std::endl;
+    LeftShift(left, 5);
+    LeftShift(right, 5);
 
     // Combine the arrays to send to p10
-    int* shiftedkey = CombineArrs(left, right, 10);
+    int shiftedkey[10];
+    CombineArrs(shiftedkey, left, right, 10);
     u_int16_t key1 = PermP8(ToInt(shiftedkey, 10));
-
-    std::cout << "Shifted Binary Key representation: ";
-    for(int i = 0; i < 10; i++)
-        std::cout << shiftedkey[i];
-    std::cout << std::endl;
-
-
 
     /* Send Key 1 to Encryption */
     input = Feistal(input, key1);
 
     /* SW */
-    int* binary = ToBinaryArr(input, 8);
+    int binary[8];
+    ToBinaryArr(input, 8, binary);
 
-    std::cout << "Binary Value representation: ";
-    for(int i = 0; i < 8; i++)
-        std::cout << binary[i];
-    std::cout << std::endl;
+    std::cout << "before: " << int(input) << std::endl;
 
-    binary = Swap(binary, 8);
+    Swap(binary, 8);
     input = ToInt(binary, 8);
-
-    
-    std::cout << "Swapped Binary Value representation: ";
-    for(int i = 0; i < 8; i++)
-        std::cout << binary[i];
-    std::cout << std::endl;
+    std::cout << "after: " << int(input) << std::endl;
 
     /* Generate Key 2 */
     
     // Shift right and left by 2
-    LeftShift(left, 2, 4);
-    LeftShift(right, 2, 4);
+    LeftShift(left, 5);
+    LeftShift(left, 5);
 
-    // TODO fix this 
-    std::cout << "Shifted Binary representation of left: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << left[i];
-    std::cout << std::endl;
-    std::cout << "Shifted Binary representation of right: ";
-    for(int i = 0; i < 5; i++)
-        std::cout << right[i];
-    std::cout << std::endl;
-
+    LeftShift(right, 5);
+    LeftShift(right, 5);
 
     // Combine the arrays to send to p10
-    shiftedkey = CombineArrs(left, right, 10);
+    CombineArrs(shiftedkey, left, right, 10);
+
     u_int16_t key2 = PermP8(ToInt(shiftedkey, 10));
 
     /* Send Key 2 to Encryption */
@@ -184,20 +136,19 @@ u_int16_t Feistal(char input, u_int16_t key)
 
 /*** Binary Actions ***/
 
-int* ToBinaryArr(u_int16_t val, int size = 8)
+void ToBinaryArr(u_int16_t val, int size, int binary[])
 {
     // The binary array that is created from char
     // Hard coded size of 16 because there are no values that should be above 16 bits
-    static int binary[16];
     size = size-1;
 
     for(int i = 0; i <= size; i++)
         binary[i] = (val >> size-i) & 1;
     
-    return binary;
+    return;
 }
 
-u_int16_t ToInt(int* binary, int size = 8)
+u_int16_t ToInt(int binary[], int size = 8)
 {
     u_int16_t val = 0;
     for(int i = 0; i < size; i++)
@@ -205,21 +156,20 @@ u_int16_t ToInt(int* binary, int size = 8)
     return val;
 }
 
-void LeftShift(int* val, unsigned int amount, int size = 8)
+void LeftShift(int val[], int size = 8)
 {
-    for(int i = 0; i < amount; i++)
+    // Save the first element to wrap around
+    int temp = val[0];
+    for(int i = 0; i < size-1; i++)
     {
-        // Save the last to replace
-        int temp = val[size-1];
-        for(int j = size-1; j > 0; j--)
-            val[j] = val[j-1];
-        val[0] = temp;
+        val[i] = val[i+1];
     }
+    val[size-1] = temp;
 
     return; 
 }
 
-void SplitArr(int* binary, int* left, int* right, int size)
+void SplitArr(int binary[], int left[], int right[], int size)
 {
     int split = size / 2;
 
@@ -232,9 +182,8 @@ void SplitArr(int* binary, int* left, int* right, int size)
     return;
 }
 
-int* CombineArrs(int* left, int* right, int full_size)
+void CombineArrs( int full[], int left[], int right[], int full_size)
 {
-    int* full = new int[full_size];
     int split = full_size / 2;
 
     for (int i = 0; i < split; i++) {
@@ -242,18 +191,18 @@ int* CombineArrs(int* left, int* right, int full_size)
         full[i + split] = right[i];
     }
 
-    return full;
+    return;
 }
 
-int* Swap(int* binary, int size)
+void Swap(int binary[], int size)
 {
     int left[size/2];
     int right[size/2];
 
     SplitArr(binary, left, right, size);
-    binary = CombineArrs(right, left, size);
+    CombineArrs(binary, right, left, size);
 
-    return binary;
+    return;
 }
 
 
@@ -261,10 +210,11 @@ int* Swap(int* binary, int size)
 
 /* Actually all of the work */
 
-u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int* permutation)
+u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int permutation[])
 {
     // Binary array of length 8 that will be used to accomplish permutation
-    int* binary = ToBinaryArr(val, input_size);
+    int binary[input_size];
+    ToBinaryArr(val, input_size, binary);
     
 
     // The permutated character in binary array form
