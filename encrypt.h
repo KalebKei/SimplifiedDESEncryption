@@ -19,6 +19,23 @@ static int P8[8] = {6, 3, 7, 4, 8, 5, 10, 9}; // Constant permutation
 static int EP[8] = {4, 1, 2, 3, 2, 3, 4, 1}; // Constant permutation used for the feistal function
 static int P4[4] = {2, 4, 3, 1}; // Constant permutation
 
+/*** Substitution Tables ***/
+static int S0[4][4] = 
+{
+    {1,0,3,2},
+    {3,2,1,0},
+    {0,2,1,3},
+    {3,1,3,2}
+};
+
+static int S1[4][4] = 
+{
+    {0,1,2,3},
+    {2,0,1,3},
+    {3,0,1,0},
+    {2,1,0,3}
+};
+
 
 /********* Functions *********/
 
@@ -48,7 +65,7 @@ std::string ReadFile(const char* file);
  */
 void EncryptByte(unsigned char input, u_int16_t key);
 
-u_int16_t Feistal(char input, u_int16_t key);
+u_int16_t Feistal(unsigned char input, u_int16_t key);
 
 
 /*** Binary Actions ***/
@@ -59,7 +76,7 @@ u_int16_t Feistal(char input, u_int16_t key);
  * @param val The value to be converted into a binary array
  * @param size The amount of bits that are utilized by the value
  */
-void ToBinaryArr(u_int16_t val, int size, int binary[]);
+void ToBinaryArr(int binary[], u_int16_t val, int size);
 
 u_int16_t ToInt(int binary[], int size);
 
@@ -72,7 +89,6 @@ void CombineArrs(int full[], int left[], int right[], int full_size);
 void Swap(int binary[], int size);
 
 
-
 /*** Permutations ***/
 
 /* Actually all of the work */
@@ -81,9 +97,9 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int p
 
 /* Encryption */
 
-char PermIP(char ch);
+unsigned char PermIP(unsigned char ch);
 
-char PermIPn(char ch);
+unsigned char PermIPn(unsigned char ch);
 
 /* Key Gen */
 

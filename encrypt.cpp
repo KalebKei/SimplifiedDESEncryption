@@ -69,7 +69,7 @@ void EncryptByte(unsigned char input, u_int16_t key)
 
     // The binary representation of the 10 bit key
     int binaryKey[10];
-    ToBinaryArr(key, 10, binaryKey);
+    ToBinaryArr(binaryKey, key, 10);
 
     // The left half of the binary key
     int left[5];
@@ -92,7 +92,7 @@ void EncryptByte(unsigned char input, u_int16_t key)
 
     /* SW */
     int binary[8];
-    ToBinaryArr(input, 8, binary);
+    ToBinaryArr(binary, input, 8);
 
     std::cout << "before: " << int(input) << std::endl;
 
@@ -124,11 +124,47 @@ void EncryptByte(unsigned char input, u_int16_t key)
     std::cout << input;
 }
 
-u_int16_t Feistal(char input, u_int16_t key)
+u_int16_t Feistal(unsigned char input, u_int16_t key)
 {
     // TODO
-    // u_int16_t output = 0;
 
+    /* Convert to binary and split */
+    
+    int binary[8];
+    int left[4];
+    int right[4];
+    ToBinaryArr(binary, input, 8);
+
+    SplitArr(binary, left, right, 8);
+
+    /* Expand R from 4->8bits */
+   
+    unsigned char rightVal;
+    rightVal = ToInt(right, 4);
+    std::cout << "Before expansion: " << int(rightVal) << std::endl;
+    rightVal = Expansion(rightVal);
+    std::cout << "After expansion: " << int(rightVal) << std::endl;
+
+    /* XOR the Expanded Right side and the Key */
+
+    unsigned char xored = rightVal^key;
+    std::cout << "After xor: " << int(xored) << std::endl;
+
+    /* Substitution */
+
+    int binSubstituion[8];
+
+    ToBinaryArr(binSubstituion, xored, 8);
+    int LSub[4];
+    int RSub[4];
+    SplitArr(binSubstituion, LSub, RSub, 8);
+
+    
+
+
+    
+
+    u_int16_t output = 0;
     return input;
 }
 
@@ -136,7 +172,7 @@ u_int16_t Feistal(char input, u_int16_t key)
 
 /*** Binary Actions ***/
 
-void ToBinaryArr(u_int16_t val, int size, int binary[])
+void ToBinaryArr(int binary[], u_int16_t val, int size)
 {
     // The binary array that is created from char
     // Hard coded size of 16 because there are no values that should be above 16 bits
@@ -214,19 +250,16 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int p
 {
     // Binary array of length 8 that will be used to accomplish permutation
     int binary[input_size];
-    ToBinaryArr(val, input_size, binary);
-    
+    ToBinaryArr(binary, val, input_size);
 
     // The permutated character in binary array form
     int permutated[16];
     
-
     for(int i = 0; i < permutation_size; i++)
         permutated[i] = binary[permutation[i]-1];
 
-
     // The permutated character
-    char permCh = ToInt(permutated);
+    unsigned char permCh = ToInt(permutated, 8);
 
     return permCh;
 }
@@ -234,12 +267,12 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int p
 
 /* Encryption */
 
-char PermIP(char ch)
+unsigned char PermIP(unsigned char ch)
 {
     return Permutation(ch, 8, 8, IP);
 }
 
-char PermIPn(char ch)
+unsigned char PermIPn(unsigned char ch)
 {
     return Permutation(ch, 8, 8, IPn);
 }

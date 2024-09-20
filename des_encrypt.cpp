@@ -81,7 +81,8 @@ void test()
     int size = 10;
     cout << "Key: " << hex << val << dec << endl;
 
-    EncryptByte(ch, val);
+    // EncryptByte(ch, val);
+    Feistal(ch, key);
 
 
     
