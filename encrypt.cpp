@@ -159,8 +159,20 @@ u_int16_t Feistal(unsigned char input, u_int16_t key)
     int RSub[4];
     SplitArr(binSubstituion, LSub, RSub, 8);
 
+    int Sub[4];
+
+    std::cout << "LSub: ";
+    for(int i = 0; i < 4; i++)
+        std::cout << LSub[i];
+    std::cout << std::endl;
     
 
+    int LRow = LSub[0]*2 + LSub[3];
+    int LCol = LSub[1]*2 + LSub[2];
+
+    int LVal = S0[LRow][LCol];
+
+    // TODO convert this to the first two bits
 
     
 

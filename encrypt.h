@@ -88,7 +88,6 @@ void CombineArrs(int full[], int left[], int right[], int full_size);
 
 void Swap(int binary[], int size);
 
-
 /*** Permutations ***/
 
 /* Actually all of the work */
