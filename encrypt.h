@@ -109,3 +109,5 @@ u_int16_t PermP8(u_int16_t val);
 /* Feistal Function */
 
 u_int16_t Expansion(u_int16_t val);
+
+u_int16_t PermP4(u_int16_t val);

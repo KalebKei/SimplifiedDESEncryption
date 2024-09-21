@@ -76,13 +76,14 @@ int main(int argc, char *argv[])
 void test()
 {
     unsigned char ch = 'b';
-    cout << "Char: " << ch << ' ' << int(ch) << endl;
     u_int16_t val = 0x2AA;
+    u_int16_t key1 = 0xE4;
     int size = 10;
-    cout << "Key: " << hex << val << dec << endl;
+    cout << "Char: " << ch << ' ' << int(ch) << endl;
+    cout << "Key: " << hex << key1 << dec << endl;
 
-    // EncryptByte(ch, val);
-    Feistal(ch, key);
+    EncryptByte(ch, val);
+    // Feistal(ch, key1);
 
 
     

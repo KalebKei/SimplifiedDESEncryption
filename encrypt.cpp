@@ -121,13 +121,11 @@ void EncryptByte(unsigned char input, u_int16_t key)
     input = PermIPn(input);
 
 
-    std::cout << input;
+    std::cout << int(input);
 }
 
 u_int16_t Feistal(unsigned char input, u_int16_t key)
 {
-    // TODO
-
     /* Convert to binary and split */
     
     int binary[8];
@@ -141,43 +139,75 @@ u_int16_t Feistal(unsigned char input, u_int16_t key)
    
     unsigned char rightVal;
     rightVal = ToInt(right, 4);
-    std::cout << "Before expansion: " << int(rightVal) << std::endl;
     rightVal = Expansion(rightVal);
-    std::cout << "After expansion: " << int(rightVal) << std::endl;
 
     /* XOR the Expanded Right side and the Key */
 
     unsigned char xored = rightVal^key;
-    std::cout << "After xor: " << int(xored) << std::endl;
 
     /* Substitution */
 
     int binSubstituion[8];
 
     ToBinaryArr(binSubstituion, xored, 8);
+
     int LSub[4];
     int RSub[4];
     SplitArr(binSubstituion, LSub, RSub, 8);
 
     int Sub[4];
 
-    std::cout << "LSub: ";
-    for(int i = 0; i < 4; i++)
-        std::cout << LSub[i];
-    std::cout << std::endl;
-    
-
     int LRow = LSub[0]*2 + LSub[3];
     int LCol = LSub[1]*2 + LSub[2];
 
     int LVal = S0[LRow][LCol];
 
-    // TODO convert this to the first two bits
+    Sub[0] = LVal > 1; // Grab the left bit
+    Sub[1] = LVal & 1; // Grab the right bit
 
+    int RRow = RSub[0]*2 + RSub[3];
+    int RCol = RSub[1]*2 + RSub[2];
     
+    int RVal = S1[RRow][RCol];
 
-    u_int16_t output = 0;
-    return input;
+    Sub[2] = RVal > 1; // Grab the left bit
+    Sub[3] = RVal & 1; // Grab the right bit
+
+
+
+    /* Permute 4 */
+    int subbed = ToInt(Sub, 4);
+    std::cout << "Sub: " << subbed << ' ';
+    for(int i = 0; i < 4; i++)
+        std::cout << Sub[i];
+    std::cout << std::endl;
+    subbed = PermP4(subbed);
+    std::cout << "Permuted 4 " << (subbed) << std::endl;
+
+
+    /* XOR Left with Subbed for output */
+    unsigned char leftnibble = ToInt(left, 4);
+    std::cout << "Left " << int(leftnibble) << std::endl;
+    u_int16_t output = leftnibble^subbed;
+    int temp[4];
+    ToBinaryArr(temp, output, 4);
+    std::cout << "Left: " << output << ' ';
+    for(int i = 0; i < 4; i++)
+        std::cout << temp[i];
+    std::cout << std::endl;
+
+    std::cout << "right: " << ToInt(right, 4) << ' ';
+    for(int i = 0; i < 4; i++)
+        std::cout << right[i];
+    std::cout << std::endl;
+
+
+    /* Combine the left and the right for the final */
+    output = ToInt(right, 4) * 0x10 + output;
+    std::cout << "Final: " << output << std::endl;
+
+
+    return output;
 }
 
 
@@ -271,7 +301,7 @@ u_int16_t Permutation(u_int16_t val, int input_size, int permutation_size, int p
         permutated[i] = binary[permutation[i]-1];
 
     // The permutated character
-    unsigned char permCh = ToInt(permutated, 8);
+    unsigned char permCh = ToInt(permutated, permutation_size);
 
     return permCh;
 }
@@ -307,6 +337,11 @@ u_int16_t PermP8(u_int16_t val)
 u_int16_t Expansion(u_int16_t val)
 {
     return Permutation(val, 4, 8, EP);
+}
+
+u_int16_t PermP4(u_int16_t val)
+{
+    return Permutation(val, 4, 4, P4);
 }
 
 
