@@ -65,7 +65,9 @@ int main(int argc, char *argv[])
             input = getchar();
             // TODO something with input
 
-            // EncryptInput(input, key);
+            if (!input.empty()) {
+                EncryptByte(static_cast<unsigned char>(input[0]), key);
+            }
         }
     }
 
@@ -75,14 +77,15 @@ int main(int argc, char *argv[])
 #ifdef debug
 void test()
 {
-    unsigned char ch = 'b';
-    cout << "Char: " << ch << ' ' << int(ch) << endl;
+    unsigned char ch = 53;
     u_int16_t val = 0x2AA;
+    // u_int16_t key1 = 0xE4;
     int size = 10;
+    cout << "Char: " << ch << ' ' << int(ch) << endl;
     cout << "Key: " << hex << val << dec << endl;
 
-    // EncryptByte(ch, val);
-    Feistal(ch, key);
+    EncryptByte(ch, val);
+    // Feistal(ch, key1);
 
 
     
