@@ -13,7 +13,7 @@
 
 using namespace std; 
 
-#define debug
+// #define debug
 
 
 #ifdef debug
@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     {
         input = ReadFile(filename);
         // TODO something with input
-        // EncryptInput(input, key);
+        for(int i = 0; i < input.size(); i++)
+            EncryptByte(input[i], key);
     }
     else
     {
