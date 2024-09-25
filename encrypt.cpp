@@ -61,7 +61,6 @@ std::string ReadFile(const char* file)
 
 void EncryptByte(unsigned char input, u_int16_t key)
 {
-    // TODO
     /* Permutate input */
     input = PermIP(input);
 
@@ -125,7 +124,8 @@ void EncryptByte(unsigned char input, u_int16_t key)
     input = PermIPn(input);
 
 
-    std::cout << (input);
+    std::cout << input;
+    fflush(stdout);
 }
 
 u_int16_t Feistal(unsigned char input, u_int16_t key)
