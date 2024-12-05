@@ -119,7 +119,6 @@ void EncryptByte(unsigned char input, char key1, char key2, int count)
     ToBinaryArr(key1Binary, key1, 8);
 
     input = Feistal(input, key1);
-    std::cerr << "fk1: " << int(input) << std::endl;
 
     /* SW */
     int binary[8];
@@ -127,6 +126,7 @@ void EncryptByte(unsigned char input, char key1, char key2, int count)
 
     Swap(binary, 8);
     input = ToInt(binary, 8);
+    std::cerr << "fk1: " << int(input) << std::endl;
 
     /* Send Key 2 to Encryption */
     input = Feistal(input, key2);
