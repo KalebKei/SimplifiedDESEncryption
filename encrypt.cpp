@@ -59,14 +59,12 @@ std::string ReadFile(const char* file)
 }
 
 
-void EncryptByte(unsigned char input, u_int16_t key)
+void KeyGeneration(u_int16_t key, char& k1, char& k2)
 {
-    /* Permutate input */
-    input = PermIP(input);
-
     /* Generate Key 1 */
     // Permutate the key
     key = PermP10(key);
+    std::cerr << "p10: " << key << std::endl;
 
     // The binary representation of the 10 bit key
     int binaryKey[10];
@@ -87,21 +85,7 @@ void EncryptByte(unsigned char input, u_int16_t key)
     int shiftedkey[10];
     CombineArrs(shiftedkey, left, right, 10);
     u_int16_t key1 = PermP8(ToInt(shiftedkey, 10));
-
-
-    /* Send Key 1 to Encryption */
-    int key1Binary[8];
-    ToBinaryArr(key1Binary, key1, 8);
-
-    input = Feistal(input, key1);
-
-    /* SW */
-    int binary[8];
-    ToBinaryArr(binary, input, 8);
-
-
-    Swap(binary, 8);
-    input = ToInt(binary, 8);
+    std::cerr << "k1: " << key1 << std::endl;
 
     /* Generate Key 2 */
     
@@ -116,9 +100,37 @@ void EncryptByte(unsigned char input, u_int16_t key)
     CombineArrs(shiftedkey, left, right, 10);
 
     u_int16_t key2 = PermP8(ToInt(shiftedkey, 10));
+    std::cerr << "k2: " << key2 << std::endl;
+
+    k1 = key1;
+    k2 = key2;
+}
+
+void EncryptByte(unsigned char input, char key1, char key2, int count)
+{
+    /* Permutate input */
+    std::cerr<< "encrypting byte #" << count << " with value " << int(input) << std::endl;
+
+    input = PermIP(input);
+    std::cerr << "ip: " << int(input) << std::endl;
+
+    /* Send Key 1 to Encryption */
+    int key1Binary[8];
+    ToBinaryArr(key1Binary, key1, 8);
+
+    input = Feistal(input, key1);
+    std::cerr << "fk1: " << int(input) << std::endl;
+
+    /* SW */
+    int binary[8];
+    ToBinaryArr(binary, input, 8);
+
+    Swap(binary, 8);
+    input = ToInt(binary, 8);
 
     /* Send Key 2 to Encryption */
     input = Feistal(input, key2);
+    std::cerr << "fk2: " << int(input) << std::endl;
 
     /* Give to final permutation */
     input = PermIPn(input);

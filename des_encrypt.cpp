@@ -43,16 +43,20 @@ int main(int argc, char *argv[])
     if(filename != "")
     {
         input = ReadFile(filename);
+        char k1, k2 = '\0';
+        KeyGeneration(key, k1, k2);
         for(int i = 0; i < input.size(); i++)
-            EncryptByte(input[i], key);
+            EncryptByte(input[i], k1, k2, i);
     }
     else
     {
-        while(1) // There is no way of knowing that the input has stopped so ctrl C
+        for(int i = 0; true; i++) // There is no way of knowing that the input has stopped so ctrl C
         {
             input = getchar();
+            char k1, k2 = '\0';
+            KeyGeneration(key, k1, k2);
             if (!input.empty() && input[0] != -1) {
-                EncryptByte(static_cast<unsigned char>(input[0]), key);
+                EncryptByte(static_cast<unsigned char>(input[0]), k1, k2, i);
             }
         }
     }

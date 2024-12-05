@@ -58,12 +58,14 @@ u_int16_t ReadKey(const char* hexInput);
  */
 std::string ReadFile(const char* file);
 
+void KeyGeneration(u_int16_t key, char& k1, char& k2);
+
 /**
  * @brief Takes in an input char (8 bits) and encrypts it using DES. Most of the logic implemented here
  * 
  * @param input The input that desires to be encrypted
  */
-void EncryptByte(unsigned char input, u_int16_t key);
+void EncryptByte(unsigned char input, char key1, char key2, int count);
 
 /**
  * @brief The Feistel function implemented. Takes in an 8 bit input alongside a 10 bit key. Yes, it's spelled wrong it's a gimmick at this point
